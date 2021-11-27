@@ -8,12 +8,12 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-private Tester tester;
+private WirelessTester tester;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tester=new Tester();
+        tester=new WirelessTester();
     }
 
     public void Arrancar (View v){

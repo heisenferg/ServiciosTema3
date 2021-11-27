@@ -43,5 +43,44 @@ public class WirelessTester extends Service {
         Log.i(tag, "Servicio WirelessTester destruido!");
     }
 
+    public class Tester extends Thread{
+        @Override
+        public void run() {
+            while(enEjecucion) {
+                try {
+                    Log.i(tag, "servicio ejecutándose....");
+                    if(wifi_activo!=CompruebaConexionWifi()){
+                        wifi_activo=!wifi_activo; //Cambio de estado
+                        if(wifi_activo)
+                            Log.i(tag,"Conexión wifi activada");
+                        else
+                            Log.i(tag,"Conexión wifi desactivada");
+                    }
+                    this.sleep(3000);
+                }
+                catch (InterruptedException e) {
+                    enEjecucion=false;
+                    Log.i(tag, "hilo del servicio interrumpido....");
+                }
+            }
+        }
+        public boolean CompruebaConexionWifi(){
+            //crea un objeto ConnectivityManager que nos da información de la red
+            ConnectivityManager connectivity = (ConnectivityManager)
+                    getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivity != null) {
+                //Objtener información de la red: acceso vía WIFI
+                NetworkInfo info = connectivity.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (info != null) {
+                    //Mirar si el dispositivo está conectado por WIFI
+                    if (info.isConnected()) {
+                        return true;//hay conexión
+                    }
+                }
+            }
+            return false; //no hay conexión
+        }
+    }
+
 
 }
